@@ -14,11 +14,16 @@ const hook = new Webhook(webHookURL);
 
 
 const tUser = {
+    hookName: process.env.HOOK_NAME,
+    username: process.env.USERNAME,
+    id: process.env.ID
+};
+/*
+const tUser = {
     hookName: 'CryptoMikey',
     username: 'CryptoCX1',
     id: '860502235213553664'
 };
-/*
 const tUser = {
     hookName: 'theblindhobo',
     username: 'theblindhobo',
