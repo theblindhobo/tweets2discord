@@ -1,7 +1,7 @@
 {
-  "name": "donald-node",
+  "name": "cryptomikey-tweets2discord",
   "version": "1.0.0",
-  "description": "A Node.js application that posts tweets by @realDonaldTrump to a Discord webhook.",
+  "description": "A Node.js application that posts tweets by @CryptoCX1 to a Discord webhook.",
   "main": "app.js",
   "scripts": {
     "start": "node .",
@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/acollierr17/donald-node.git"
+    "url": "git+https://github.com/theblindhobo/tweets2discord.git"
   },
-  "author": "acollierr17 <gamemaniac101@gmail.com>",
+  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/acollierr17/donald-node/issues"
