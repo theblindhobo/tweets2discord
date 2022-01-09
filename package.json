@@ -22,7 +22,7 @@
     "dotenv": "^6.2.0",
     "node-fetch": "^2.3.0",
     "twitter": "^1.7.1",
-    "webhook-discord": "git+https://github.com/acollierr17/webhook-discord.git"
+    "webhook-discord": "git://github.com/acollierr17/webhook-discord.git#commit-ish"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
