@@ -1,11 +1,13 @@
 const Twitter = require('twitter');
-const Wd = require('./webhook-discord/index.js');
+// const { Webhook, MessageBuilder } = require('webhook-discord');
+const Webhook = require('./webhook-discord/webhook');
+const MessageBuilder = require('./webhook-discord/builder');
 const { twitter, webHookURL } = require('./config');
 
 require('dotenv').config();
 
 const client = new Twitter(twitter);
-const hook = new Wd.Webhook(webHookURL);
+const hook = new Webhook(webHookURL);
 
 /**
  * @type {Object}
@@ -43,7 +45,7 @@ async function newTweet(id) {
             const tweet = await client.get('statuses/show', { id });
             const tweetData = mapTweet(tweet);
 
-            const tweetToDiscord = new Wd.MessageBuilder()
+            const tweetToDiscord = new MessageBuilder()
                 .setName(tUser.hookName)
                 .setAuthor(tweetData.screenName, tweetData.tweetURL, tweetData.profilePic)
                 .setDescription(tweetData.tweet)
