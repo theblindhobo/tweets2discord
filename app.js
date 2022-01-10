@@ -1,7 +1,7 @@
 const Twitter = require('twitter');
 // const { Webhook, MessageBuilder } = require('webhook-discord');
-const Webhook = require('./webhook-discord/webhook');
-const MessageBuilder = require('./webhook-discord/builder');
+const Webhook = require('./webhook.js');
+const MessageBuilder = require('./builder.js');
 const { twitter, webHookURL } = require('./config');
 
 require('dotenv').config();
