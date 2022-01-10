@@ -1,34 +1,29 @@
 {
   "name": "cryptomikey-tweets2discord",
   "version": "1.0.0",
-  "description": "A Node.js application that posts tweets by @CryptoCX1 to a Discord webhook.",
+  "description": "A Node.js application that posts tweets to a Discord webhook.",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "eslint .",
-    "lint": "eslint --fix ."
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/theblindhobo/tweets2discord.git"
   },
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/acollierr17/donald-node/issues"
+    "url": "https://github.com/theblindhobo/tweets2discord/issues"
   },
-  "engines": {
-    "node": "^16.6"
-  },
-  "homepage": "https://github.com/acollierr17/donald-node#readme",
+  "homepage": "https://github.com/theblindhobo/tweets2discord#readme",
   "dependencies": {
-    "dotenv": "^6.2.0",
-    "node-fetch": "^2.3.0",
+    "dotenv": "^10.0.0",
+    "node-fetch": "^3.1.0",
     "twitter": "^1.7.1",
-    "webhook-discord": "^3.7.8"
+    "webhook-discord": "git+https://github.com/acollierr17/webhook-discord.git"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.13.0"
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.6.0"
   }
 }

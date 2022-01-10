@@ -2,6 +2,8 @@ const Twitter = require('twitter');
 const { Webhook, MessageBuilder } = require('webhook-discord');
 const { twitter, webHookURL } = require('./config');
 
+require('dotenv').config();
+
 const client = new Twitter(twitter);
 const hook = new Webhook(webHookURL);
 
@@ -12,26 +14,14 @@ const hook = new Webhook(webHookURL);
  * @param {String} id - The user ID of the Twitter user.
  */
 
-
 const tUser = {
     hookName: process.env.HOOK_NAME,
     username: process.env.USERNAME,
     id: process.env.ID
 };
-/*
-const tUser = {
-    hookName: 'CryptoMikey',
-    username: 'CryptoCX1',
-    id: '860502235213553664'
-};
-const tUser = {
-    hookName: 'theblindhobo',
-    username: 'theblindhobo',
-    id: '38884187'
-};
-*/
 
-console.log('CryptoMikey is now online!');
+
+console.log(`${process.env.HOOK_NAME} is now online!`);
 
 const stream = client.stream('statuses/filter', { follow: tUser.id });
 
