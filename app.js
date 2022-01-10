@@ -29,7 +29,24 @@ const stream = client.stream('statuses/filter', { follow: tUser.id });
 
 stream.on('data', e => {
     if (e.user.id_str !== tUser.id) return;
-    newTweet(e.id_str);
+
+    if(e.retweeted_status != undefined) {
+      console.log('Retweet.');
+    } else if(e.in_reply_to_status_id != null) {
+      console.log('Reply.');
+    } else if(e.in_reply_to_status_id_str != null) {
+      console.log('Reply.');
+    } else if(e.in_reply_to_user_id != null) {
+      console.log('Reply.');
+    } else if(e.in_reply_to_user_id_str != null) {
+      console.log('Reply.');
+    } else if(e.in_reply_to_screen_name != null) {
+      console.log('Reply.');
+    } else {
+      console.log('Original tweet.');
+      newTweet(e.id_str);
+    }
+
 });
 
 stream.on('error', error => {
@@ -55,8 +72,7 @@ async function newTweet(id) {
             if (tweetData.entities.media) tweetToDiscord.setImage(tweetData.entities.media[0].media_url_https);
 
             console.log(`New tweet posted by ${tweetData.screenName}.`);
-            // hook.send(tweetToDiscord);
-            hook.send({ content: `<${tweetData.tweetURL}>`, embeds: [tweetToDiscord] });
+            hook.send(tweetToDiscord);
 
         } catch (err) {
             console.error('An error has occurred with posting the tweet.', err);
