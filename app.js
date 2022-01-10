@@ -50,7 +50,7 @@ async function newTweet(id) {
                 .setAuthor(tweetData.screenName, tweetData.tweetURL, tweetData.profilePic)
                 .setDescription(tweetData.tweet)
                 .setColor(tweetData.themeColor)
-                .setFooter(`Likes: ${tweetData.likeCount} | Retweets: ${tweetData.retweetCount}`);
+                .setTimestamp();
 
             if (tweetData.entities.media) tweetToDiscord.setImage(tweetData.entities.media[0].media_url_https);
 
