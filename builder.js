@@ -3,8 +3,9 @@ class MessageBuilder {
      * This is the class to initialize a new MessageBuilder.
      * @constructor
      */
-    constructor() {
+    constructor(tweetURL) {
         this.data = {
+            content: `<${tweetURL}>`,
             embeds: [{
                 fields: [],
                 author: {},
@@ -16,13 +17,13 @@ class MessageBuilder {
 
     /**
      * Set the author of the embed with an optional icon
-     * 
+     *
      * @param {String} name - The name to use.
      * @param {String} url - The url to use.
      * @param {String} icon - The icon url to use.
      */
-    setAuthor(name, url, icon) {
-        this.data.embeds[0].author.name = name;
+    setAuthor(displayName, name, url, icon) {
+        this.data.embeds[0].author.name = `${displayName} (@${name})`;
         this.data.embeds[0].author.url = url;
         this.data.embeds[0].author.icon_url = icon;
 
@@ -100,7 +101,7 @@ class MessageBuilder {
         this.data.embeds[0].fields.push(fieldObj);
         return this;
     }
-    
+
     /**
      * Remove a field from an embed
      *
@@ -139,7 +140,7 @@ class MessageBuilder {
 
     /**
      * This method sets the footer of the embed.
-     * 
+     *
      * @param {String} text - The text of the footer.
      * @param {String} icon - The icon url of the footer.
      */
