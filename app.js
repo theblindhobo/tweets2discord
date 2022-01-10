@@ -55,7 +55,8 @@ async function newTweet(id) {
             if (tweetData.entities.media) tweetToDiscord.setImage(tweetData.entities.media[0].media_url_https);
 
             console.log(`New tweet posted by ${tweetData.screenName}.`);
-            hook.send(tweetToDiscord);
+            // hook.send(tweetToDiscord);
+            hook.send({ content: `<${tweetData.tweetURL}>`, embeds: [tweetToDiscord] });
 
         } catch (err) {
             console.error('An error has occurred with posting the tweet.', err);
