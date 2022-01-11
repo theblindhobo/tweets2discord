@@ -32,26 +32,26 @@ stream.on('data', e => {
     // console.log(e);
 
     if(e.retweeted_status != undefined) {
-      console.log('Retweet.');
+      console.log('[retweeted_status] Retweet.');
     } else if(e.in_reply_to_status_id != null) {
-      console.log('Reply.');
+      console.log('[in_reply_to_status_id] Reply.');
     } else if(e.in_reply_to_status_id_str != null) {
-      console.log('Reply.');
+      console.log('[in_reply_to_status_id_str] Reply.');
     } else if(e.in_reply_to_user_id != null) {
-      console.log('Reply.');
+      console.log('[in_reply_to_user_id] Reply.');
     } else if(e.in_reply_to_user_id_str != null) {
-      console.log('Reply.');
+      console.log('[in_reply_to_user_id_str] Reply.');
     } else if(e.in_reply_to_screen_name != null) {
-      console.log('Reply.');
+      console.log('[in_reply_to_screen_name] Reply.');
     } else {
-      console.log('Original tweet.');
+      console.log('[else] Original tweet.');
       newTweet(e, e.id_str);
     }
 
 });
 
 stream.on('error', error => {
-    console.error('An error has occurred.', error.stack);
+    console.log('An error has occurred: ', error);
 });
 
 /**
@@ -112,6 +112,6 @@ async function newTweet(e, id) {
 
 
         } catch (err) {
-            console.error('An error has occurred with posting the tweet.', err);
+            console.log('An error has occurred with posting the tweet: ', err);
         }
 }
