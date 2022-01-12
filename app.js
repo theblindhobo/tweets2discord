@@ -33,6 +33,7 @@ stream.on('data', e => {
 
     if(e.retweeted_status != undefined) {
       console.log('[retweeted_status] Retweet.');
+      newTweet('retweet', e, e.id_str);
     } else if(e.in_reply_to_status_id != null) {
       console.log('[in_reply_to_status_id] Reply.');
     } else if(e.in_reply_to_status_id_str != null) {
@@ -45,7 +46,7 @@ stream.on('data', e => {
       console.log('[in_reply_to_screen_name] Reply.');
     } else {
       console.log('[else] Original tweet.');
-      newTweet(e, e.id_str);
+      newTweet('tweet', e, e.id_str);
     }
 
 });
@@ -58,7 +59,7 @@ stream.on('error', error => {
  * Takes an ID of a Twitter status update.
  * @param {String} id - The Twitter status ID.
  */
-async function newTweet(e, id) {
+async function newTweet(type, e, id) {
         try {
 
             function embedMessage(tweetData) {
@@ -70,43 +71,52 @@ async function newTweet(e, id) {
                 .setFooter('Twitter', 'https://img.icons8.com/color/344/twitter--v1.png')
                 .setTimestamp();
 
+              if(type == 'retweet') {
+                tweetData.displayName = e.retweeted_status.user.name;
+                tweetData.screenName = e.retweeted_status.user.screen_name;
+                tweetData.tweetURL = `https://twitter.com/${e.retweeted_status.user.screen_name}/status/${e.retweeted_status.id_str}`;
+                tweetData.profilePic = e.retweeted_status.user.profile_image_url_https;
+                tweetToDiscord.setAuthor(tweetData.displayName, tweetData.screenName, tweetData.tweetURL, tweetData.profilePic)
+                tweetToDiscord.setTitle('🔁 RT');
+                tweetToDiscord.setDescription(`${tweetData.tweet.split(' ').slice(2).join(' ')}`);
+              }
+              if(e.is_quote_status) {
+                tweetToDiscord.addField(`💭 *quoted:*`, `*@${e.quoted_status.user.screen_name}:* \"*${e.quoted_status.text}* \"`);
+                if(!tweetData.entities.media) {
+                  if(e.quoted_status.truncated) {
+                    tweetToDiscord.setImage(e.quoted_status.extended_tweet.entities.media[0].media_url_https);
+                  } else if(!e.quoted_status.truncated) {
+                    tweetToDiscord.setImage(e.quoted_status.entities.media[0].media_url_https);
+                  }
+                }
+              }
               if(tweetData.entities.media) tweetToDiscord.setImage(tweetData.entities.media[0].media_url_https);
 
               console.log(`New tweet posted by ${tweetData.screenName}.`);
               hook.send(tweetToDiscord);
             }
 
+            const tweetData = {
+                id: e.id_str,
+                retweetCount: e.retweet_count,
+                likeCount: e.favorite_count,
+                displayName: e.user.name,
+                screenName: e.user.screen_name,
+                screenURL: `https://twitter.com/${e.user.screen_name}`,
+                profilePic: e.user.profile_image_url_https,
+                themeColor: e.user.profile_link_color,
+                tweetURL: `https://twitter.com/${e.user.screen_name}/status/${e.id_str}`
+            };
 
-            if(e.truncated) { // extended exists
-              const tweetData = {
-                  tweet: e.extended_tweet.full_text,
-                  id: e.id_str,
-                  entities: e.extended_tweet.entities,
-                  retweetCount: e.retweet_count,
-                  likeCount: e.favorite_count,
-                  displayName: e.user.name,
-                  screenName: e.user.screen_name,
-                  screenURL: `https://twitter.com/${e.user.screen_name}`,
-                  profilePic: e.user.profile_image_url_https,
-                  themeColor: e.user.profile_link_color,
-                  tweetURL: `https://twitter.com/${e.user.screen_name}/status/${e.id_str}`
-              };
+            // extended exists
+            if(e.truncated) {
+              tweetData.tweet = e.extended_tweet.full_text;
+              tweetData.entities = e.extended_tweet.entities;
               embedMessage(tweetData);
             } else if(!e.truncated) {
               const tweet = await client.get('statuses/show', { id });
-              const tweetData = {
-                  tweet: e.text,
-                  id: e.id_str,
-                  entities: e.entities,
-                  retweetCount: e.retweet_count,
-                  likeCount: e.favorite_count,
-                  displayName: e.user.name,
-                  screenName: e.user.screen_name,
-                  screenURL: `https://twitter.com/${e.user.screen_name}`,
-                  profilePic: e.user.profile_image_url_https,
-                  themeColor: e.user.profile_link_color,
-                  tweetURL: `https://twitter.com/${e.user.screen_name}/status/${e.id_str}`
-              };
+              tweetData.tweet = e.text;
+              tweetData.entities = e.entities;
               embedMessage(tweetData);
             }
 
